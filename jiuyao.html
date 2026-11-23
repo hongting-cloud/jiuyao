@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html data-page-node-id="cVBRlEpJw8qOqv8aqy2Pys" lang="zh-CN">
+<head data-page-node-id="XHbHDJOPTVrud6kMA7tph9">
+<script data-page-node-id="jPGJHrUO2yO9YmLKZgN4h4" src="/page/page_comm/inject.js"></script>
+<meta data-page-node-id="8J1MGNdQTju4UjmOzmabXD" charset="UTF-8">
+<meta data-page-node-id="FXLoYINKtzOkMZehRgX08x" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title data-page-node-id="8PSYTi8e5WyrkpmbCEx1Ef" data-pnid-children="qEv3lDwTulAoBAOT3Opd5r">九曜人格原型测试 · 完整版</title>
+<style data-page-node-id="CFJbKDeZ2IDWRKwQ7dpxDc" data-pnid-children="twXXEM9FvHs77fVrCI5jcn">
+  :root{
+    --bg:#FAF6F0;--card:#FFFFFF;--ink:#3A3A3A;--ink-soft:#8A8580;
+    --line:#EEE7DD;--accent:#C97F4E;--radius:20px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:24px 16px 48px}
+  .wrap{width:100%;max-width:480px}
+  .hide{display:none!important}
+
+  /* 首页 */
+  .hero{background:var(--card);border-radius:var(--radius);padding:40px 28px 32px;text-align:center;box-shadow:0 4px 24px rgba(60,45,30,.06);border:1px solid var(--line)}
+  .hero .stars{font-size:32px;letter-spacing:5px;margin-bottom:12px}
+  .hero h1{font-size:25px;letter-spacing:2px;margin-bottom:6px;font-weight:700}
+  .hero .sub{font-size:13px;color:var(--ink-soft);letter-spacing:1px;margin-bottom:26px}
+  .grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px}
+  .cell{aspect-ratio:1;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:600;color:#fff;opacity:.92}
+  .cell .sym{font-size:18px}
+  .btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(135deg,#D98F5B,#C97F4E);color:#fff;font-size:16px;font-weight:600;letter-spacing:2px;cursor:pointer;box-shadow:0 6px 16px rgba(201,127,78,.28);transition:transform .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink);box-shadow:none;margin-top:12px;font-size:14px}
+  .disclaim{font-size:11px;color:var(--ink-soft);line-height:1.7;margin-top:18px;text-align:center}
+  .disclaim b{color:#B08968}
+
+  /* 答题 */
+  .prog-track{height:6px;background:var(--line);border-radius:3px;margin-bottom:8px;overflow:hidden}
+  .prog-bar{height:100%;background:linear-gradient(90deg,#D98F5B,#C97F4E);border-radius:3px;transition:width .3s}
+  .prog-num{font-size:12px;color:var(--ink-soft);margin-bottom:20px;text-align:right}
+  .qcard{background:var(--card);border-radius:var(--radius);padding:32px 24px;border:1px solid var(--line);box-shadow:0 4px 24px rgba(60,45,30,.05)}
+  .qtitle{font-size:19px;font-weight:700;line-height:1.5;margin-bottom:26px}
+  .opt{display:block;width:100%;text-align:left;padding:16px 18px;margin-bottom:12px;border:1.5px solid var(--line);border-radius:14px;background:#fff;font-size:15px;line-height:1.55;color:var(--ink);cursor:pointer;transition:all .18s}
+  .opt:active{background:#FBF3EB}
+  .opt.sel{border-color:var(--accent);background:#FBF3EB;color:#8A5A32;font-weight:600}
+  .qcard .btn{margin-top:14px}
+
+  /* 结果 */
+  .r-head{text-align:center;font-size:13px;color:var(--ink-soft);letter-spacing:3px;margin-bottom:16px}
+  .share-card{border-radius:24px;padding:36px 26px 22px;color:#fff;text-align:center;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(60,45,30,.14)}
+  .share-card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.18),transparent 55%)}
+  .sc-eyebrow{font-size:12px;letter-spacing:3px;opacity:.85;position:relative}
+  .sc-sym{font-size:52px;margin:14px 0 6px;position:relative}
+  .sc-name{font-size:30px;font-weight:700;letter-spacing:4px;position:relative;margin-bottom:6px}
+  .sc-tag{font-size:13px;opacity:.92;letter-spacing:1px;position:relative;margin-bottom:20px}
+  .sc-pct{display:inline-block;background:rgba(255,255,255,.18);padding:6px 18px;border-radius:99px;font-size:12px;letter-spacing:1px;position:relative}
+  .sc-watermark{position:relative;margin-top:20px;font-size:10px;opacity:.75;letter-spacing:1px}
+  .sub-arch{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .sub-dot{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+  .sub-info .lab{font-size:11px;color:var(--ink-soft);letter-spacing:1px;margin-bottom:2px}
+  .sub-info .val{font-size:15px;font-weight:600}
+  .r-section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px;margin-top:16px}
+  .r-section h4{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .r-section h4 .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .r-section p{font-size:14px;line-height:1.85;color:#55504A;margin-bottom:10px}
+  .r-section p:last-child{margin-bottom:0}
+  .footer-note{margin-top:24px;text-align:center;font-size:11px;color:var(--ink-soft);line-height:1.8}
+
+  /* AI 报告 */
+  .ai-cta{margin-top:16px;background:linear-gradient(135deg,#3B332B,#5A4E42);border-radius:18px;padding:28px 22px;color:#F5EFE7;position:relative;overflow:hidden}
+  .ai-cta::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(217,143,91,.16)}
+  .ai-cta h3{font-size:17px;letter-spacing:1px;margin-bottom:8px;position:relative}
+  .ai-cta p{font-size:13px;opacity:.85;line-height:1.7;margin-bottom:18px;position:relative}
+  .ai-cta .btn{background:linear-gradient(135deg,#E8A96F,#D98F5B);box-shadow:0 6px 16px rgba(217,143,91,.35)}
+  .loading{display:none;text-align:center;padding:40px 0}
+  .loading .spin{width:44px;height:44px;border:4px solid #EEE7DD;border-top-color:var(--accent);border-radius:50%;margin:0 auto 18px;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading p{font-size:14px;color:var(--ink-soft)}
+  .report{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px}
+  .report h1{font-size:20px;font-weight:700;margin-bottom:6px;letter-spacing:1px}
+  .report .r-sub{font-size:12px;color:var(--ink-soft);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .report h2{font-size:16px;font-weight:700;margin:22px 0 10px;color:#5A4632}
+  .report p{font-size:14px;line-height:1.9;color:#55504A;margin-bottom:10px}
+  .report ul{padding-left:20px;margin-bottom:10px}
+  .report li{font-size:14px;line-height:1.9;color:#55504A}
+  .report strong{color:#8A5A32}
+  .report .ai-badge{display:inline-block;font-size:11px;color:#B08968;border:1px solid #E8D9C6;border-radius:6px;padding:3px 10px;margin-bottom:16px}
+  .fallback-tip{font-size:12px;color:#B08968;background:#FBF3EB;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+
+  /* 弹窗 */
+  .mask{position:fixed;inset:0;background:rgba(30,25,20,.55);display:none;align-items:center;justify-content:center;padding:24px;z-index:50;backdrop-filter:blur(3px)}
+  .mask.show{display:flex}
+  .modal{background:#fff;border-radius:22px;padding:32px 26px;max-width:360px;width:100%;text-align:center;animation:pop .25s ease}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal .m-ico{font-size:40px;margin-bottom:12px}
+  .modal h3{font-size:17px;margin-bottom:10px}
+  .modal p{font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:20px}
+  .modal .mbtn{padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#D98F5B,#C97F4E);color:#fff;font-size:14px;font-weight:600;width:100%;cursor:pointer}
+  .fade-in{animation:fadein .4s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body data-page-node-id="ZxQvj5Ze5zOnsGPO290ye4">
+<div data-page-node-id="1WI8zcxYrOZJmsH1JoVeIf" class="wrap">
+
+  <!--pnid:egUNuwLowET3G1S2qupyfk--><!-- 首页 -->
+  <div data-page-node-id="XIG0hy1XjEn1J4vdl30JXL" class="hero fade-in" id="home">
+    <div data-page-node-id="lbM1YGfzJ403toYtTrnRZm" class="stars"><!--pnid:pbF98eROKpu6m6TU8mFIDU-->☀︎☽︎♂︎☿︎♃︎♀︎♄︎☊︎☋</div>
+    <h1 data-page-node-id="Ab3iAjLzFMZktzQzQw5Ga8"><!--pnid:1i7C3V7dI70WAGvLoUDOhG-->九曜人格原型</h1>
+    <div data-page-node-id="yc2jzD8HkknYUH8YHSPvgr" class="sub"><!--pnid:WOqNNDLT8UOaisHT7m7HHw-->NAVGRAHA ARCHETYPE TEST · 趣味心理测试</div>
+    <div data-page-node-id="jukM2j8rZHZb2Z98TRjpg2" class="grid9" id="grid9"></div>
+    <button data-page-node-id="r7ujwRzuHkMy0EZwdL1RFy" class="btn" onclick="startFull()"><!--pnid:rJhywGaKA4cRsFwnyzFkA9-->开始测试 · 25 题深度报告</button>
+    <div data-page-node-id="m80Ud8UgrIlRayp73C4QOj" class="disclaim">
+      <b data-page-node-id="bAvRZvY0HAyFgrZgYNbxyK"><!--pnid:GyoAQtGOPbUOeBx5NGoAJJ-->开始即代表你已阅读并同意</b><br data-page-node-id="vkOGrYPovYNqXe4h2wd9AG"><!--pnid:a7SiLrNYj8MFg7YaNRAtcI-->
+      本测试为趣味心理测试，基于印度占星"九曜"文化元素进行知识化包装。<br data-page-node-id="zy91LYAUXWUkDbTmtLJH87"><!--pnid:ajSwBlEtfdqjKhCSIPjkji-->
+      不收集出生日期，不涉及任何命运预测，结果仅供娱乐与自我认知参考。
+    </div>
+  </div>
+
+  <!--pnid:S4CNNqSOulqWLu7sx2tVXR--><!-- 答题 -->
+  <div data-page-node-id="BMMxpF3fJlQkgKiTfzwRla" class="hide" id="quiz">
+    <div data-page-node-id="6o5MK9WicT5JSyRRlLSuY3" class="prog-track"><div data-page-node-id="0mQ5qDmQVLRY55iWYOJsVm" class="prog-bar" id="progBar"></div></div>
+    <div data-page-node-id="Ju2RnRZFo7gjQogBQ5L3Xv" class="prog-num" id="progNum"></div>
+    <div data-page-node-id="TtATMspASYRXPqc64v3wLb" class="qcard fade-in" id="qcard"></div>
+  </div>
+
+  <!--pnid:kpM2wSj7mtKuNSsDvkixJo--><!-- 结果 -->
+  <div data-page-node-id="qr5GpUnVIlGI9uOzF0Seqj" class="hide" id="result">
+    <div data-page-node-id="cMa4ZEvxkjBj8w2TsudxYC" class="r-head"><!--pnid:OPdNP88DZ3wAXpYny4IpkD-->— 你的人格原型结果 —</div>
+    <div data-page-node-id="tqT0WiJFEBQYIoMuL21s8i" class="share-card fade-in" id="shareCard"></div>
+    <div data-page-node-id="AK5gPQAyOlUxBvplCFCroJ" class="sub-arch fade-in" id="subArch"></div>
+
+    <!--pnid:RVaU4GOSyrsERl88OHHQT4--><!-- 免费版：解锁引导 -->
+    <div data-page-node-id="prjOIMCSzwvHfcOL1NV4t2" class="ai-cta fade-in" id="freeCta">
+      <h3 data-page-node-id="u0JDotFF38YbgkcLwClA9v"><!--pnid:pY8VqqO49WUOunqZZJ4v0R-->解锁完整版报告</h3>
+      <p data-page-node-id="lJoNcaaXEknviC4pvfV39R"><!--pnid:nRHIJYXHeEEumkhVESNgoW-->25 道完整题目 · 主副原型深度解读<br data-page-node-id="ZMBrevT9ZaURnmiQHzTB4P"><!--pnid:sAHs6pvFYeZ4tmDjSwxyt4-->优势盲区分析 · 专属成长练习 · 印占知识彩蛋</p>
+      <button data-page-node-id="T3QmxJ4hjUJeBWQmItyQtp" class="btn" onclick="showUnlock()"><!--pnid:W7Kv9eVFWAMNiIDVTNmnmH-->解锁完整报告</button>
+    </div>
+
+    <!--pnid:NVAL50ZltlLFxrtUVS7xA1--><!-- 完整版：AI 报告生成 -->
+    <div data-page-node-id="BUHueYv7tmW6KxpPTdpgJG" class="ai-cta fade-in" id="aiCta">
+      <h3 data-page-node-id="vgp5rudyymrnndrq5hpJ3q"><!--pnid:ZWu4SJzLqKzcJ26lUqYCmo-->生成你的完整版报告</h3>
+      <p data-page-node-id="gyf3Pv0gpLH5OA1qk9L2qV"><!--pnid:ZvbymVptF2XpzBx9xu40AR-->基于你的 25 题答题数据，生成专属人格原型深度报告<br data-page-node-id="NHTnfLl1jVS0jJZ3YEGHo1"><!--pnid:SEiExTqziXrTT2eM2cOjV1-->含主副原型解读、优势盲区、成长练习与印占知识</p>
+      <button data-page-node-id="cwz69yA72RaXIRURibZXNU" class="btn" onclick="generateReport()"><!--pnid:GBLN6DjXsi54fMnwm50dQd-->立即生成报告</button>
+    </div>
+
+    <div data-page-node-id="hQCsTJ4MUa4WaVAVw9qOMT" class="loading" id="loading">
+      <div data-page-node-id="KzJ5gLRrag2m26zTjhg5AF" class="spin"></div>
+      <p data-page-node-id="KDWeuE6lgjYHu1vYAoGGH6"><!--pnid:4CZnXcqz4U8ubuw4uFnL7c-->正在根据你的答题数据生成报告…<br data-page-node-id="4taDTwRlzk29SzZZOVMM8U"><!--pnid:xgrQXlzzTWawYY8B9ZmAwh-->马上就好，请勿退出</p>
+    </div>
+
+    <div data-page-node-id="7FUurQbd7zIast3rNB41ha" class="report hide" id="reportBox"></div>
+
+    <!--pnid:L1HlchQ1RuCogd5DlKapPm--><!-- 兜底静态报告（AI 失败时自动展示） -->
+    <div data-page-node-id="qL3RgFwUCc22HKNhCMxsHj" id="fallbackSections"></div>
+    <div data-page-node-id="76UtP1JcZqkhD3vXf04A1C" class="footer-note"><!--pnid:jbQQGiLx5thlGqKbgGUiKj-->
+      本报告基于测试规则生成 · 仅供娱乐与自我认知参考<br data-page-node-id="kee6Y12WbJkXxtnO6hQiFb"><!--pnid:QD3gQW0LI4vuhuKLQM1reF-->
+      不构成任何心理、医疗、职业或人生决策建议<br data-page-node-id="l0uPviNxWYpt2ohYumzuN8"><!--pnid:u7hsU8kyvwrazxJf1d62gG-->
+      © 九曜人格原型测试 · V1.0
+    </div>
+  </div>
+</div>
+
+<!--pnid:yPw8tjG9aGj5xlnbIahT9M--><!-- 解锁提示弹窗 -->
+<div data-page-node-id="NBZZ2lpBnD4JKFzOysO8mu" class="mask" id="unlockMask">
+  <div data-page-node-id="IoF7YH1vit5gYlFVRdAH8G" class="modal">
+    <div data-page-node-id="XlIhgbNgvJgwECLskJL7xm" class="m-ico"><!--pnid:JQaW8S82XWAnvBAiuPTG7Z-->🔒</div>
+    <h3 data-page-node-id="Y4hGagRL5bhAGORbAVizUP"><!--pnid:IKP0xan631xMgoYlxiW6mS-->完整版为付费内容</h3>
+    <p data-page-node-id="QsNO6AiRDG47D3WtTyJiCC"><!--pnid:WWnPAsYF5pMIhoQ2DqfE6s-->你的完整版报告已生成！<br data-page-node-id="fqrjmG1NSH1fHqnefidGXg"><!--pnid:eEqex7WYEnpkQcoOSkvFA6-->输入激活码立即解锁查看 🐸</p>
+    <input data-page-node-id="TV7RjGs5pb885AUB91aGwz" id="jyKey" onkeydown="if(event.key==='Enter')tryMaskKey()" placeholder="输入激活码" style="width:200px; padding:10px; border:1.5px solid #C9A227; border-radius:9px; font-size:14px; margin-top:6px; outline:none">
+    <button data-page-node-id="wRA65uGQfovPSbTTOHmzFt" class="mbtn" onclick="tryMaskKey()"><!--pnid:PNGnkMyD87Cq83VEj21PpQ-->解锁完整版</button>
+    <div data-page-node-id="3MrIr1lro5IA5P5VhuVgv5" id="jyErr" style="color:#C0392B; font-size:12px; min-height:16px"></div>
+    <p data-page-node-id="yR9aMixcCsZC1M2Dc456zR" style="font-size:11px; color:#999"><!--pnid:JVcbc6VeNct1dlGitDxkYg-->还没拿到激活码？到小红书商品页拍下，秒发激活码</p>
+  </div>
+</div>
+
+<script data-page-node-id="s1N0mD9HvA5L7ZBUdEsbXL" data-pnid-children="9jXY24uUKu4RHzQv3jGpQ9">
+/* ========== 配置区：上线前必改 ========== */
+var ACCESS_TOKEN = "JIUYAO-2026";          // 买家激活码：要换码时只改这一个词，重新上传即可
+var API_ENDPOINT = "";                    // 留空 = 纯本地生成（推荐：国内直连、秒出结果、零成本、永不失败）
+                                          // 以后要接 AI 云函数再填地址，例如 "https://你的环境.service.tcloudbase.com/gen"
+var BAN_WORDS = ["财运","姻缘","事业运","运势","转运","开运","化解","命中注定","改变命运","天命"];
+
+/* ========== 九原型数据（兜底报告 + 计分渲染） ========== */
+var ARCH = [
+ {id:1,name:"领航者",planet:"太阳 · Surya",sym:"☀︎",color:"#E8804C",tag:"天生的主心骨",
+  tags:["决断快","抗压强","方向感"],
+  portrait:"你的能量来自「推进感」——事情在往前走，你就安心；原地打转，你就焦躁。面对模糊局面，你习惯先给出清晰方向。在群体里，你常常是默认的决策者：不是你抢话，而是大家会不自觉等你表态。别人眼中的你可靠、笃定、能扛事，但只有你知道，「什么都行」的背后，是你把犹豫和疲惫都留给了自己。",
+  weak:"① 容易忽略节奏慢的人，把「想清楚再说」误判为「不积极」。② 习惯自己扛，等到求助时往往已经过载。",
+  grow:"① 每周留一次「不主导的对话」：只提问，不表态。② 把一件小事的决策权完全交出去，练习信任。③ 记录三次「我没插手，结果也不差」的证据。",
+  lore:"在吠陀占星中，太阳被视为灵魂与生命力的象征，与「个人指标星（Atmakaraka）」的概念相关——常被理解为一个人此生最核心的课题所在。太阳原型强的人，课题往往是：如何使用力量，而不是被力量使用。",
+  pair:"与筑基者（土星）搭档最稳：你负责冲和定方向，对方守住节奏和底线。"},
+ {id:2,name:"守护者",planet:"月亮 · Chandra",sym:"☽︎",color:"#8FA8C8",tag:"情绪场域的锚点",
+  tags:["信任建设","情绪稳定","记得细节"],
+  portrait:"你的雷达永远开着：进门三秒，你就知道这个房间谁不舒服。别人聊事情，你先感知人。你记得住细节：谁不吃香菜、谁的孩子这周考试——这不是刻意讨好，而是你的注意力天然流向人本身。代价是边界感偏弱：别人一句「你人真好」，能让你多扛三件事。别人靠你获得安全感，而你需要学会先给自己。",
+  weak:"① 情绪过载：分不清「共情」和「背负」。② 不好意思拒绝，答应得太快，消耗得太狠。",
+  grow:"① 本周至少说一次「这个我帮不了」，忍住不解释。② 给「情绪吸收」设上限：每天 20 分钟独处清空。③ 区分「我难过」和「TA难过但那是TA的事」，写下来。",
+  lore:"在吠陀占星中，月亮被认为掌管心智（Manas）——情绪、记忆与直觉的总和。印度传统历法至今以月亮运行周期为基础制定节日。月亮原型强的人，敏感不是缺点，而是你感知世界的方式本身。",
+  pair:"与策略家（水星）搭档最互补：对方帮你把「感受」翻译成「方案」，你帮对方把「方案」翻译成「人话」。"},
+ {id:3,name:"冲锋者",planet:"火星 · Mangala",sym:"♂︎",color:"#D14B4B",tag:"行动即答案",
+  tags:["执行力","危机处理","敢要"],
+  portrait:"你想明白之前，身体已经动了。别人还在列利弊，你已经做完第一版、被现实教育过一轮、开始迭代第二版。竞争会点燃你：有对手的场合，你的爆发力会上一个台阶。你最怕的不是失败，是憋着——一个想法在心里放三天没落地，你就会烦躁到失眠。关键时刻全场大脑空白时，你是那个已经站起来的人。",
+  weak:"① 耐心不足，容易把「还没生效」误判为「没用」。② 语速快、语气冲，容易无意误伤体感敏感的人。",
+  grow:"① 重要回应前给自己 24 小时规则：先回「收到，我想想」。② 每周做一件「无聊但复利」的事，练习与慢共处。③ 问信任的人「我哪句话伤到过你？」只听，不辩解。",
+  lore:"火星在吠陀占星中对应勇气、能量与行动力，梵文语境中的 Mangala 本身就带有「吉祥、有力」的含义。火星原型强的人，功课不是学会发力，而是给能量装一个方向盘。",
+  pair:"与织美者（金星）搭档最互补：对方在你开炮前把话包上一层绒布，你帮对方在犹豫时把事推出去。"},
+ {id:4,name:"策略家",planet:"水星 · Budha",sym:"☿︎",color:"#4C9BE8",tag:"信息炼金术士",
+  tags:["化繁为简","学习力","决策质量"],
+  portrait:"你有把混乱变成秩序的本能：一桌子散乱信息，别人头疼，你手痒——分类、命名、建框架，三步之内必见结构。聊天三句，你大概率会问「依据是什么」——不是抬杠，而是你无法在没有依据的结论上停留。一个优雅的解决方案带来的快感，可能超过一顿大餐。你的风险不是想得不够，而是想得太多。",
+  weak:"① 分析瘫痪：选项太多时反而动不了。② 对模糊容忍度低，容易在「差不多可以了」的时刻还在挑毛病。",
+  grow:"① 小决策设 10 分钟倒计时，到时按当前最优执行。② 每周一次「不查攻略」的体验。③ 把结论说成人话：一句话讲不清的分析，等于没分析。",
+  lore:"水星在吠陀占星中掌管语言、逻辑与分析。水星原型强的人，天然杠杆就是表达——你的思考质量，取决于你把它说得多清楚。",
+  pair:"与探索家（木星）搭档最互补：对方负责「还有什么可能」，你负责「哪条能走通」。"},
+ {id:5,name:"探索家",planet:"木星 · Guru",sym:"♃︎",color:"#D9A441",tag:"可能性收藏家",
+  tags:["机会嗅觉","感染力","成长心态"],
+  portrait:"你的默认视角是「还有什么没试过」。你的收藏夹里躺着 37 个「以后要试」的东西，而且你真心相信每一个都会实现。你乐观，且是会传染的那种——你说「这事有搞头」时的笃定，常让周围的人也跟着信了。对机会的嗅觉灵敏：新事物刚冒头，别人还在观望，你已经在群里发起讨论。人生对你不是待完成的目标，是一片要逛完的原野。",
+  weak:"① 承诺困难：对「只做一件事、做很多年」天然抗拒。② 摊子铺太大，能量分散在起跑线上。",
+  grow:"① 每季度砍掉一个在做的方向，集中到最好那条。② 给新想法设 30 天冷静期。③ 在一件无趣但重要的事上坚持一个季度，体验「复利」的手感。",
+  lore:"木星在吠陀占星中被视为最大的吉星，梵文名称 Guru 本义即「导师」——掌管智慧、扩展与恩典。木星原型强的人，天然适合做「把门推开」的角色：不是你比别人聪明，而是你比别人敢信。",
+  pair:"与筑基者（土星）搭档最互补：对方把你的七条线砍成一条并守到复利出现。"},
+ {id:6,name:"织美者",planet:"金星 · Shukra",sym:"♀︎",color:"#D4789B",tag:"关系与审美的调音师",
+  tags:["品味","协调力","如沐春风"],
+  portrait:"你对「质感」有近乎生理性的敏感：光线、排版、摆盘——差一点你会难受，对了你会记住很久。在人群里，你是天然的气氛担当：谁和谁微妙，你能感觉到，并有把话接住、把场圆回来的天赋。你的礼貌不是客套，而是一种美学。软肋是回避冲突——你太在意「好看」的关系，以至于愿意为表面和谐支付真话的成本。",
+  weak:"① 回避冲突、取悦倾向，委屈自己维持表面和谐。② 用「算了」消化问题，攒多了会在某天突然清算。",
+  grow:"① 本周表达一次不赞成：语气可以温柔，立场必须清楚。② 列出你「为了好看而忍下」的三件事，评估哪件值得摊开。③ 给自己花钱的标准从「性价比」换成「我值得」一次。",
+  lore:"金星在吠陀占星中对应愉悦、艺术与吸引力，梵文 Shukra 字根与「纯净、明亮」相关。金星原型强的人，审美不是装饰，而是你理解世界的方式——你认为秩序和美是同一种东西。",
+  pair:"与冲锋者（火星）搭档最互补：对方说真话，你说漂亮话，合起来就是「既诚实又得体」。"},
+ {id:7,name:"筑基者",planet:"土星 · Shani",sym:"♄︎",color:"#6B7B8C",tag:"长期主义者",
+  tags:["可靠","深度","扛住时间"],
+  portrait:"你不追风，追复利。所有人涌向新赛道时，你在问：这事三年后还在吗？我愿意做三年吗？我能做到前 20% 吗？三个答案肯定，你就会开始一段旁人看来「很傻」的坚持。你的纪律近乎苛刻，首先对自己：答应的事熬夜也完成。这份可靠为你赢得真正信任，但也让你背上「应该」的枷锁——你对自己太严了，严到很少表扬自己。",
+  weak:"① 对自己要求过苛，休息会产生负罪感。② 灵活性偏低，变化太快时明显不适。",
+  grow:"① 每完成一个阶段，强制庆祝一次并记录。② 每周安排一次「无产出日」。③ 把「我本可以做得更好」改成「我已完成，下一轮再优化」。",
+  lore:"土星在吠陀占星中与时间、纪律及「业力的磨砺」相关，被视为最严格的老师——它的磨砺从不舒服，但毕业的人都很结实。你不是慢，你只是按另一种复利曲线在走。",
+  pair:"与探索家（木星）搭档最互补：对方负责开地图，你负责走到终点。"},
+ {id:8,name:"破局者",planet:"罗睺 · Rahu",sym:"☊︎",color:"#7B5EA7",tag:"不走寻常路的实验体",
+  tags:["非常规","早期嗅觉","从0到1"],
+  portrait:"标准答案对你有天然的排异反应。别人问「怎么做才对」，你问「为什么非得这么做」。你着迷于新事物：别人还在讨论要不要接受，你已经在用了。小众的、地下的、实验性的场景对你有磁场般的吸引力。你身上有「成瘾式上进」：达成目标后的满足感很短，你很快需要下一个更大的刺激。你不是不合群，你只是还没遇到值得合的群。",
+  weak:"① 欲望油门灵敏、刹车失灵，容易阶段性迷失方向。② 对「重复、深耕」耐受度低，起跑容易、收尾难。",
+  grow:"① 给当前的「大目标」写一句「为了什么」，贴在最显眼处。② 选一件进行中的事坚持到「完全做完」，体验闭环。③ 每月与一位「过来人」深聊一次，借别人的时间轴看清自己。",
+  lore:"罗睺是印占「九曜」中特殊的存在——没有实体，是月亮轨道与太阳轨道的交点，一个「影子星」，象征欲望、突破与非常规的力量。你的课题从来不是「合群」，而是驯服自己的胃口。",
+  pair:"与筑基者（土星）搭档最互补：罗睺负责突破，土星负责把突破变成资产。"},
+ {id:9,name:"洞察者",planet:"计都 · Ketu",sym:"☋︎",color:"#4A8A82",tag:"安静的深度观察者",
+  tags:["洞察力","独立性","冷静"],
+  portrait:"在热闹的场合，你常常是声音最少、看得最深的那个。你的注意力不在「发生了什么」，而在「这一切底下是什么」。你有被动的直觉：说不出推理过程，但结论常常惊人地准。朋友遇到事绕一大圈讲完，你一句话总结，对方愣住说「对，就是这样」。你对物质和热闹的欲望天然偏低，常在人群里感到「在场但不属于」——这不是缺陷，你需要的是筛出真正同频的小世界。",
+  weak:"① 疏离感，容易「断联」：消失一阵，没人知道你在哪。② 表达意愿低，常被低估和错过。",
+  grow:"① 每周主动发出一次「我在」的信号。② 把一个洞察完整写下来并发出去。③ 选一个人，告诉对方你观察到的TA（正面版本）。",
+  lore:"计都是罗睺的对点——另一个月亮交点，象征超脱、直觉与「放下」的智慧。计都原型强的人，你的孤独感或许有另一种解释：你只是提前完成了对外界认可的脱敏。",
+  pair:"与领航者（太阳）搭档最互补：对方需要你的清醒，你需要对方的行动力。"}
+];
+
+/* ========== 25 题题库（计分归属见产品文档，已平衡校验） ========== */
+var QUESTIONS = [
+ {t:"周五晚上，哪种「回血方式」最像你？",opts:[
+  {txt:"约人去打一局刺激的，出出汗才舒服",a:3},
+  {txt:"独自复盘这一周，想明白一些事",a:9},
+  {txt:"组个小局，把心里想推的那件事推起来",a:1},
+  {txt:"舒舒服服窝在家，和最亲近的人待着就很好",a:2}]},
+ {t:"朋友聚会里，你通常是——",opts:[
+  {txt:"照顾那个坐在角落不太说话的人",a:2},
+  {txt:"自然成为话题中心，节奏跟着你走",a:1},
+  {txt:"发起游戏、辩论，越热闹越起劲",a:3},
+  {txt:"负责拍照修图，记录高光时刻",a:6}]},
+ {t:"新任务下来，你的第一反应是——",opts:[
+  {txt:"先拆解：目标、步骤、风险列个清单",a:4},
+  {txt:"直接开干，边做边调整",a:3},
+  {txt:"先琢磨这里面的机会和成长空间",a:5},
+  {txt:"先确认分工和时间点，把责任边界划清",a:1}]},
+ {t:"你的手机桌面更接近——",opts:[
+  {txt:"文件夹分类清晰，命名整齐",a:4},
+  {txt:"精选壁纸，图标风格统一，好看很重要",a:6},
+  {txt:"只留最常用的，其他能删就删",a:3},
+  {txt:"堆满尝鲜的新 App，好多还没打开过",a:5}]},
+ {t:"理想的旅行方式是——",opts:[
+  {txt:"攻略做成表格，预算精确到交通",a:7},
+  {txt:"说走就走，路上见招拆招",a:3},
+  {txt:"目的地可以普通，但出片必须有质感",a:6},
+  {txt:"不去人多的地方，专找小众秘境",a:8}]},
+ {t:"计划突然被打乱，你会——",opts:[
+  {txt:"火一下，然后马上想 Plan B",a:3},
+  {txt:"心里不舒服，需要时间慢慢消化",a:2},
+  {txt:"无所谓，说不定新安排更有意思",a:5},
+  {txt:"立刻重排计划，恢复秩序",a:7}]},
+ {t:"购物决策风格——",opts:[
+  {txt:"数据、测评、对比，研究三天再买",a:4},
+  {txt:"眼缘和质感，喜欢就是理由",a:6},
+  {txt:"当下就买，冲动是美德",a:5},
+  {txt:"用到坏才换，要买就买耐用的",a:7}]},
+ {t:"深夜聊天，你更愿意聊——",opts:[
+  {txt:"各自最近的情绪和心事",a:2},
+  {txt:"方法论、效率工具、认知升级",a:4},
+  {txt:"宇宙、玄学、人类未来",a:9},
+  {txt:"谁在搞什么新事情、有什么机会",a:8}]},
+ {t:"团队项目里，你倾向——",opts:[
+  {txt:"当牵头人，方向我来定",a:1},
+  {txt:"写文档、管进度，信息我来理",a:4},
+  {txt:"协调气氛，关键关系我来维护",a:6},
+  {txt:"闷头攻克最难的那个模块",a:9}]},
+ {t:"面对批评，你的真实反应更接近——",opts:[
+  {txt:"先听完，冷静判断有没有道理",a:9},
+  {txt:"当场就想辩回去",a:3},
+  {txt:"表面平静，内心翻江倒海很久",a:2},
+  {txt:"对事论事，有错就改，没错就过",a:1}]},
+ {t:"压力大的时候，你会——",opts:[
+  {txt:"更拼命，用行动压制焦虑",a:3},
+  {txt:"拉个表，把压力来源逐个拆解",a:4},
+  {txt:"幻想逃离，来一场说走就走",a:8},
+  {txt:"情绪起伏变大，睡眠变差",a:2}]},
+ {t:"理想的一天是——",opts:[
+  {txt:"安排满满，每个时段都有目标",a:1},
+  {txt:"没有安排，跟着感觉走",a:2},
+  {txt:"见一个新的人，学一样新东西",a:5},
+  {txt:"独处，创作、阅读或深入思考",a:9}]},
+ {t:"给重要的人挑礼物，你更看重——",opts:[
+  {txt:"实用耐用，能用很多年",a:7},
+  {txt:"走心，最好有回忆和故事",a:2},
+  {txt:"有品位，拿得出手",a:6},
+  {txt:"有惊喜感，出其不意",a:8}]},
+ {t:"到一个新城市，你先做——",opts:[
+  {txt:"老城区、博物馆、市集深度走一遍",a:6},
+  {txt:"找最有意思的地下场景和本地社群",a:8},
+  {txt:"认识一帮新朋友，社交满档",a:5},
+  {txt:"按经典路线走，安全高效",a:7}]},
+ {t:"对钱，你的真实态度是——",opts:[
+  {txt:"花在体验和见识上，值",a:5},
+  {txt:"花在品质和美学上，悦己",a:6},
+  {txt:"存起来，余额就是安全感",a:7},
+  {txt:"投资自己，学习是最好的资产",a:4}]},
+ {t:"比赛、竞标或晋升竞争时——",opts:[
+  {txt:"血脉觉醒，必须赢",a:3},
+  {txt:"目标清晰，步步为营",a:1},
+  {txt:"争取，但不想撕破脸",a:6},
+  {txt:"重在体验，结果随缘",a:9}]},
+ {t:"面对「规则」，你的态度是——",opts:[
+  {txt:"规则是拿来优化的",a:8},
+  {txt:"太多规则会窒息",a:2},
+  {txt:"规则保护所有人，该守",a:7},
+  {txt:"重要的守，其余看心情",a:5}]},
+ {t:"学新技能，你的方式是——",opts:[
+  {txt:"系统课程 + 笔记 + 练习计划",a:4},
+  {txt:"找这个领域最厉害的人学",a:1},
+  {txt:"从模仿喜欢的作品开始",a:6},
+  {txt:"玩着学，兴趣在哪学哪",a:5}]},
+ {t:"朋友圈里的你——",opts:[
+  {txt:"晒里程碑和成果",a:1},
+  {txt:"记录生活细节和当下情绪",a:2},
+  {txt:"分享冷知识和深度观点",a:9},
+  {txt:"基本不发，现实忙碌",a:7}]},
+ {t:"遇到冲突，你的本能是——",opts:[
+  {txt:"直面，吵清楚拉倒",a:3},
+  {txt:"缓和气氛，找台阶下",a:6},
+  {txt:"先拉开距离冷静",a:9},
+  {txt:"找出双方都能接受的规则",a:4}]},
+ {t:"人生重大选择，你更看——",opts:[
+  {txt:"长期收益和复利",a:7},
+  {txt:"可能性和成长空间",a:5},
+  {txt:"内心直觉和意义感",a:9},
+  {txt:"现实可控性",a:4}]},
+ {t:"你的房间风格更接近——",opts:[
+  {txt:"极简高效，每样东西有固定位置",a:7},
+  {txt:"温暖柔软，充满生活气息",a:2},
+  {txt:"个性收藏，别处看不到的物件",a:8},
+  {txt:"色调统一，整体美感优先",a:6}]},
+ {t:"面对完全陌生的领域——",opts:[
+  {txt:"兴奋，直接冲进去试",a:8},
+  {txt:"先研究资料再动手",a:4},
+  {txt:"谨慎观望，不轻易下场",a:7},
+  {txt:"跟直觉走，边走边感觉",a:9}]},
+ {t:"别人对你的印象更接近——",opts:[
+  {txt:"温柔、好说话",a:2},
+  {txt:"有主见、能扛事",a:1},
+  {txt:"特立独行、看不透",a:8},
+  {txt:"直接、强势、不好惹",a:3}]},
+ {t:"给一年后的自己留言，你会写——",opts:[
+  {txt:"目标都达成了吗？别松懈",a:1},
+  {txt:"好好照顾自己，你已经很努力了",a:2},
+  {txt:"我们是不是又去了更远的地方",a:5},
+  {txt:"坚持下来的人，已经赢了",a:7}]}
+];
+
+var mode="free", qIdx=0, selOpt=null, answers=[], resultData=null;
+
+/* 首页九宫格 */
+(function(){
+  var g=document.getElementById("grid9");
+  ARCH.forEach(function(x){
+    var d=document.createElement("div");
+    d.className="cell";
+    d.style.background="linear-gradient(135deg,"+x.color+","+x.color+"CC)";
+    d.innerHTML='<div class="sym">'+x.sym+'</div><div>'+x.name+'</div>';
+    g.appendChild(d);
+  });
+})();
+
+function startFree(){ mode="free"; beginQuiz(5); }
+function gateOpen(){
+  try{
+    if(sessionStorage.getItem("jy_ok")===ACCESS_TOKEN)return true;
+    return new URLSearchParams(location.search).get("k")===ACCESS_TOKEN;
+  }catch(e){return false}
+}
+function startFull(){
+  if(ACCESS_TOKEN && !gateOpen()){ showUnlock(); return; }
+  mode="full"; beginQuiz(25);
+}
+function tryMaskKey(){
+  var v=(document.getElementById("jyKey").value||"").trim().toUpperCase();
+  if(!v){document.getElementById("jyErr").textContent="先输入激活码哦～";return;}
+  if(v===ACCESS_TOKEN.toUpperCase()){
+    try{sessionStorage.setItem("jy_ok",ACCESS_TOKEN)}catch(e){}
+    hideUnlock();startFull();
+  }else{
+    document.getElementById("jyErr").textContent="激活码不对哦～请核对后重试，或到小红书商品页拍下获取";
+  }
+}
+function beginQuiz(n){
+  qIdx=0; answers=[];
+  var qs = n===5 ? QUESTIONS.slice(0,5) : QUESTIONS;
+  window._qs=qs;
+  document.getElementById("home").classList.add("hide");
+  document.getElementById("result").classList.add("hide");
+  document.getElementById("quiz").classList.remove("hide");
+  renderQ();
+}
+function renderQ(){
+  var q=window._qs[qIdx]; selOpt=null;
+  document.getElementById("progBar").style.width=(qIdx/window._qs.length*100)+"%";
+  document.getElementById("progNum").textContent="第 "+(qIdx+1)+" / "+window._qs.length+" 题";
+  var c=document.getElementById("qcard");
+  c.className="qcard fade-in";
+  var html='<div class="qtitle">'+q.t+'</div>';
+  q.opts.forEach(function(o,i){
+    html+='<button class="opt" onclick="pick('+i+')">'+String.fromCharCode(65+i)+'. '+o.txt+'</button>';
+  });
+  html+='<button class="btn" id="nextBtn" onclick="nextQ()" style="opacity:.4;pointer-events:none">'+(qIdx===window._qs.length-1?"完成，查看结果":"下一题")+'</button>';
+  c.innerHTML=html;
+}
+function pick(i){
+  selOpt=i;
+  var opts=document.querySelectorAll(".opt");
+  opts.forEach(function(b){b.classList.remove("sel")});
+  opts[i].classList.add("sel");
+  var n=document.getElementById("nextBtn");
+  n.style.opacity=1; n.style.pointerEvents="auto";
+}
+function nextQ(){
+  if(selOpt===null)return;
+  answers.push(selOpt);
+  qIdx++;
+  if(qIdx<window._qs.length){renderQ();}
+  else{finish();}
+}
+
+/* 计分（归一化：得分÷该原型最大可得分，消除选项出现次数带来的系统偏差） */
+function finish(){
+  var qs=window._qs;
+  var score={},counts={};
+  ARCH.forEach(function(x){score[x.id]=0;counts[x.id]=0});
+  answers.forEach(function(sel,i){ score[qs[i].opts[sel].a]+=2; });
+  qs.forEach(function(q){ q.opts.forEach(function(o){ counts[o.a]+=1; }); });
+  var sorted=ARCH.map(function(x){
+    return {x:x, s: score[x.id]/(2*counts[x.id])};
+  }).sort(function(a,b){return b.s-a.s});
+  var main=sorted[0].x, sub=sorted[1].x;
+  var denom=sorted[0].s+sorted[1].s;
+  var mainPct=denom>0 ? Math.round(sorted[0].s/denom*100) : 50;
+  resultData={main:main,sub:sub,mainScore:Math.round(sorted[0].s*100),subScore:Math.round(sorted[1].s*100),mainPct:mainPct,answers:answers,qs:qs};
+  document.getElementById("quiz").classList.add("hide");
+  document.getElementById("result").classList.remove("hide");
+  renderResult();
+}
+
+function renderResult(){
+  var d=resultData, main=d.main, sub=d.sub;
+  /* 分享卡片 */
+  var sc=document.getElementById("shareCard");
+  sc.style.background="linear-gradient(150deg,"+main.color+","+shade(main.color,-28)+")";
+  sc.innerHTML=
+    '<div class="sc-eyebrow">你的九曜人格原型</div>'+
+    '<div class="sc-sym">'+main.sym+'</div>'+
+    '<div class="sc-name">'+main.name+'</div>'+
+    '<div class="sc-tag">'+main.planet+' ｜ '+main.tag+'</div>'+
+    '<div class="sc-pct">主原型占比 '+d.mainPct+'%</div>'+
+    '<div class="sc-watermark">九曜人格原型测试 · AI生成 · 仅供娱乐</div>';
+  /* 副原型 */
+  document.getElementById("subArch").innerHTML=
+    '<div class="sub-dot" style="background:'+sub.color+'22;color:'+sub.color+'">'+sub.sym+'</div>'+
+    '<div class="sub-info"><div class="lab">'+(mode==="full"?"你的隐藏副线":"你的隐藏副线（完整版深度解读）")+'</div>'+
+    '<div class="val">'+sub.name+' · '+sub.planet+'</div></div>';
+  /* CTA 区分免费/完整 */
+  document.getElementById("freeCta").classList.toggle("hide", mode!=="free");
+  document.getElementById("aiCta").classList.toggle("hide", mode!=="full");
+  document.getElementById("loading").classList.add("hide");
+  document.getElementById("reportBox").classList.add("hide");
+  document.getElementById("fallbackSections").innerHTML="";
+  /* 直售版：25 题做完自动生成报告，无需再点按钮 */
+  if(mode==="full"){ generateReport(); }
+  window.scrollTo(0,0);
+}
+
+/* ========== AI 报告生成 ========== */
+function buildAnswerSummary(){
+  var qs=resultData.qs;
+  return resultData.answers.map(function(sel,i){
+    return "Q"+(i+1)+". "+qs[i].t+" → "+qs[i].opts[sel].txt;
+  }).join("\n");
+}
+
+function generateReport(){
+  document.getElementById("aiCta").classList.add("hide");
+  document.getElementById("loading").classList.remove("hide");
+  var d=resultData;
+
+  /* 默认路径：未配置 AI 后端，走本地报告引擎 */
+  if(!API_ENDPOINT){
+    setTimeout(function(){ renderLocalReport(false); }, 1200);
+    return;
+  }
+
+  var payload={
+    main:d.main.name, sub:d.sub.name,
+    mainScore:d.mainScore, subScore:d.subScore,
+    answerSummary:buildAnswerSummary()
+  };
+  var done=false;
+  /* 30秒超时兜底 */
+  var timer=setTimeout(function(){ if(!done){done=true; renderLocalReport(true);} },30000);
+  fetch(API_ENDPOINT,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
+  }).then(function(r){return r.json()}).then(function(data){
+    if(done)return; done=true; clearTimeout(timer);
+    var report=(data&&data.report)?data.report:"";
+    if(!report || report==="FALLBACK" || hasBanWord(report)){
+      renderLocalReport(true);
+    }else{
+      renderReport(report);
+    }
+  }).catch(function(){
+    if(done)return; done=true; clearTimeout(timer);
+    renderLocalReport(true);
+  });
+}
+
+function hasBanWord(text){
+  for(var i=0;i<BAN_WORDS.length;i++){
+    if(text.indexOf(BAN_WORDS[i])>-1)return true;
+  }
+  return false;
+}
+
+function renderReport(md){
+  document.getElementById("loading").classList.add("hide");
+  var box=document.getElementById("reportBox");
+  box.classList.remove("hide");
+  box.className="report fade-in";
+  box.innerHTML=
+    '<span class="ai-badge">AI 生成 · 仅供娱乐参考</span>'+
+    simpleMarkdown(md);
+  window.scrollTo(0, box.offsetTop-20);
+}
+
+/* ========== 本地报告引擎：不依赖任何后端与境外 API，答题数据直接拼装报告 ========== */
+function firstSentence(t){
+  var i=t.indexOf("。");
+  return i>0 ? t.slice(0,i+1) : t;
+}
+
+/* 答题指纹：挑出最能体现主原型的 2—3 道题 */
+function fingerprints(){
+  var d=resultData, out=[], i, j;
+  for(i=0;i<d.answers.length;i++){
+    var o=d.qs[i].opts[d.answers[i]];
+    if(o.a===d.main.id) out.push({q:d.qs[i].t,a:o.txt});
+  }
+  if(out.length<2){
+    out=[];
+    for(j=0;j<Math.min(3,d.answers.length);j++){
+      out.push({q:d.qs[j].t,a:d.qs[j].opts[d.answers[j]].txt});
+    }
+  }
+  return out.slice(0,3);
+}
+
+function renderLocalReport(isFallback){
+  document.getElementById("loading").classList.add("hide");
+  var d=resultData, main=d.main, sub=d.sub;
+  var st=d.mainScore||45;
+  var html="";
+
+  /* 强度分档解读（依据：主原型得分率，随机作答的中位数约 45%） */
+  var band, bandText;
+  if(st>=55){
+    band="高度集中";
+    bandText="你的答案高度集中在一个原型上，说明你在大多数场景下的行为逻辑非常一致——别人很容易「读懂」你，你自己也少有内耗式的摇摆。代价是：遇到需要切换模式的情境，你可能会比别人更不适应。";
+  }else if(st>=40){
+    band="主次清晰";
+    bandText="你的主原型清晰，但并没有压倒一切。这意味着你有稳定的行为默认值，同时也保留了一定弹性。这种人适应力通常不错，但在需要长期坚持单一角色的事情上，容易分心。";
+  }else{
+    band="双线并行";
+    bandText="你的主副原型得分非常接近，你正站在两种力量的交界处。这不是「不够明确」，而是一种真实存在的矛盾感：很多场景下你确实有两种同样合理的反应方式，选哪个取决于当时的环境。";
+  }
+
+  html+='<div class="fallback-tip">'+(isFallback
+    ? "报告已根据你的答题数据生成 · 网络波动不影响完整内容"
+    : "已根据你的 "+d.answers.length+" 道题作答生成 · 答题越完整，解读越贴合")+'</div>';
+
+  html+=section("原型指向："+main.name+"（"+band+"）", '<p>'+bandText+'</p>', main.color);
+
+  /* 答题指纹：把用户自己的选择回放给他看 */
+  var fps=fingerprints();
+  if(fps.length){
+    var inner=fps.map(function(f){
+      return '<p style="margin:0 0 8px"><b style="color:'+main.color+'">'+f.q+'</b><br>你的选择：'+f.a+'</p>';
+    }).join("");
+    inner+='<p style="margin-top:10px;color:#7A6A5F">这几个瞬间的共同点，是你做决定时最省力的路径——它往往也最像你。</p>';
+    html+=section("答题指纹", inner, main.color+"AA");
+  }
+
+  html+=section("你的主原型画像："+main.name+" · "+main.planet, '<p>'+main.portrait+'</p>', main.color);
+  html+=section("你的优势", '<div class="tag-row" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">'+main.tags.map(function(t){return '<span style="font-size:12px;padding:5px 12px;border-radius:99px;color:#fff;background:'+main.color+'">'+t+'</span>'}).join("")+'</div><p>'+main.pair+'</p>', main.color);
+  html+=section("你的盲区（克制版）", '<p>'+main.weak+'</p>', main.color+"88");
+  html+=section("你的隐藏副线："+sub.name+" · "+sub.tag,
+    '<p>'+firstSentence(sub.portrait)+'</p><p style="margin-top:10px">它不会主导你的选择，但会在特定情境被调用：当你需要'+sub.tags[0]+'的时候，「'+sub.name+'」的部分就会浮上来。这让你的'+main.name+'底色多了一层缓冲，也可能带来「两种声音同时说话」的犹疑。</p>',
+    sub.color);
+  html+=section("写给你的 3 个成长练习", '<p>'+main.grow+'</p>', main.color);
+  html+=section("印占知识小彩蛋", '<p>'+main.lore+'</p>', main.color);
+
+  /* 组合专属提醒 */
+  var combo='「'+main.name+'＋'+sub.name+'」这个组合的典型课题是：你既在意'+main.tags[0]+'，又放不下'+sub.tags[0]+'。当两者冲突时，先问自己一句——此刻我更怕后悔，还是更怕失控？答案会告诉你该用哪一面。';
+  html+=section("专属提醒", '<p>'+combo+'</p>', "#B08968");
+
+  document.getElementById("fallbackSections").innerHTML=html;
+  window.scrollTo(0, document.getElementById("fallbackSections").offsetTop-40);
+}
+
+function section(title,inner,color){
+  return '<div class="r-section fade-in"><h4><span class="dot" style="background:'+color+'"></span>'+title+'</h4>'+inner+'</div>';
+}
+
+/* 极简 Markdown 渲染（标题/粗体/列表/段落） */
+function simpleMarkdown(md){
+  var lines=md.split("\n");
+  var html="", inList=false;
+  lines.forEach(function(line){
+    var l=line.trim();
+    if(!l){ if(inList){html+="</ul>";inList=false;} return; }
+    if(/^#\s/.test(l)){ html+="<h1>"+fmt(l.replace(/^#\s/,""))+"</h1>"; return; }
+    if(/^##\s/.test(l)){ if(inList){html+="</ul>";inList=false;} html+="<h2>"+fmt(l.replace(/^##\s/,""))+"</h2>"; return; }
+    if(/^[-*]\s/.test(l)){ if(!inList){html+="<ul>";inList=true;} html+="<li>"+fmt(l.replace(/^[-*]\s/,""))+"</li>"; return; }
+    if(inList){html+="</ul>";inList=false;}
+    html+="<p>"+fmt(l)+"</p>";
+  });
+  if(inList)html+="</ul>";
+  return html;
+}
+function fmt(s){
+  return s.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+}
+
+function shade(hex,amt){
+  var n=parseInt(hex.slice(1),16);
+  var r=(n>>16)+amt,g=((n>>8)&255)+amt,b=(n&255)+amt;
+  r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));
+  return "#"+((r<<16)|(g<<8)|b).toString(16).padStart(6,"0");
+}
+
+function showUnlock(){document.getElementById("unlockMask").classList.add("show");}
+function hideUnlock(){document.getElementById("unlockMask").classList.remove("show");}
+</script>
+</body>
+</html>
